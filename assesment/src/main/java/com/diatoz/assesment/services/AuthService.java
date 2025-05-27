@@ -34,18 +34,29 @@ public class AuthService {
             throw new UserAlreadyExistsException("Username is already taken!");
         }
 
+        String password = registerRequest.getPassword();
+        if (!isValidPassword(password)) {
+            throw new IllegalArgumentException("Password must contain at least one lowercase, one uppercase, one digit, and one special character.");
+        }
+
         // Create user
         User user = new User();
         user.setUsername(registerRequest.getUsername());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setRole(User.Role.STUDENT);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRole(registerRequest.getRole());
 
         User savedUser = userRepository.save(user);
 
-        // Create student linked to user
-        Student student = new Student(savedUser);
-        studentRepository.save(student);
+        if (savedUser.getRole().name().equals("STUDENT")) {
+            Student student = new Student(savedUser);
+            studentRepository.save(student);
+        }
     }
+
+    private boolean isValidPassword(String password) {
+        return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
+    }
+
 
     public JwtResponse authenticateUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(

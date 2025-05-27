@@ -2,7 +2,7 @@ package com.diatoz.assesment.security;
 
 import com.diatoz.assesment.models.User;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,25 +10,26 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-@Data
+@Getter
 @AllArgsConstructor
 public class UserPrincipal implements UserDetails {
 
     private Long id;
     private String username;
     private String password;
-    private Collection<? extends GrantedAuthority> authorities;
+    private String role;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
+    }
 
     public static UserPrincipal create(User user) {
-        Collection<GrantedAuthority> authorities = Collections.singletonList(
-                new SimpleGrantedAuthority("ROLE_" + user.getRole().name())
-        );
-
         return new UserPrincipal(
                 user.getId(),
                 user.getUsername(),
                 user.getPassword(),
-                authorities
+                user.getRole().name()
         );
     }
 
@@ -50,13 +51,5 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-    @Override
-    public String getPassword() {
-        return password;
-    }
-    @Override
-    public String getUsername() {
-        return username;
     }
 }
