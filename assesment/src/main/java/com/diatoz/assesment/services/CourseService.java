@@ -1,6 +1,9 @@
 package com.diatoz.assesment.services;
 
+import com.diatoz.assesment.exceptions.CourseFullException;
 import com.diatoz.assesment.exceptions.CourseNotFoundException;
+import com.diatoz.assesment.exceptions.DuplicateEnrollmentException;
+import com.diatoz.assesment.exceptions.StudentNotFoundException;
 import com.diatoz.assesment.models.Course;
 import com.diatoz.assesment.models.Enrollment;
 import com.diatoz.assesment.models.Student;

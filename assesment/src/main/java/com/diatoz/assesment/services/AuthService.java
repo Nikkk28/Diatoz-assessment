@@ -3,6 +3,7 @@ package com.diatoz.assesment.services;
 import com.diatoz.assesment.dto.JwtResponse;
 import com.diatoz.assesment.dto.LoginRequest;
 import com.diatoz.assesment.dto.RegisterRequest;
+import com.diatoz.assesment.exceptions.UserAlreadyExistsException;
 import com.diatoz.assesment.models.Student;
 import com.diatoz.assesment.models.User;
 import com.diatoz.assesment.repositories.StudentRepository;

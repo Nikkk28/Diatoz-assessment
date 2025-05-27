@@ -5,6 +5,8 @@ import com.diatoz.assesment.dto.JwtResponse;
 import com.diatoz.assesment.dto.LoginRequest;
 import com.diatoz.assesment.dto.RegisterRequest;
 import com.diatoz.assesment.services.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
